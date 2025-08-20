@@ -1,0 +1,65 @@
+<div class="main-container">
+    <form class="login" tuiAppearance="floating" tuiCardLarge tuiForm="m" [formGroup]="form">
+        <header tuiHeader>
+            <h2 tuiTitle>
+                Anmelden
+            </h2>
+        </header>
+
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Email-Adresse</label>
+            <input tuiTextfield formControlName="email" type="text" inputmode="email" autocomplete="email"
+                autocapitalize="off" spellcheck="false" />
+        </tui-textfield>
+
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Kennwort</label>
+            <input tuiTextfield formControlName="password" type="password" inputmode="text"
+                autocomplete="current-password" autocapitalize="off" spellcheck="false" />
+            <tui-icon tuiPassword />
+        </tui-textfield>
+
+        <div class="password-options">
+            <label tuiLabel class="save-login">
+                <input formControlName="saveLogin" tuiCheckbox type="checkbox" />
+                Angemeldet bleiben
+            </label>
+            <button tuiHintAppearance="dark" tuiHintDirection="top-left" tuiLink type="button" class="tui-space_top-4"
+                (click)="navigateToResetPassword()">
+                Passwort vergessen?
+            </button>
+        </div>
+
+        <footer>
+            <button class="submit-button" tuiButton type="submit">
+                Anmelden
+            </button>
+        </footer>
+
+        <div class="tui-space_top-4 flex items-center justify-between">
+            <span>
+                Kein Konto?
+                <button tuiLink type="button" tuiHintAppearance="dark" tuiHintDirection="top-left"
+                    (click)="navigateToSignUp()">
+                    Hier erstellen
+                </button>
+            </span>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <hr>
+            <span>oder</span>
+            <hr>
+        </div>
+        <!-- Google Button -->
+        <div class="social-login">
+            <button tuiButton type="button" appearance="outline"
+                class="google-login flex items-center gap-2 px-4 py-2 rounded-lg shadow-sm border border-gray-300 hover:bg-gray-50"
+                (click)="loginWithGoogle()">
+                <img src="assets/google-logo.png.webp" alt="Google" class="google-logo" />
+                Weiter mit Google
+            </button>
+        </div>
+    </form>
+</div>
