@@ -1,4 +1,86 @@
-<p>signup works!</p>
-
-
 <!-- use that color for background: #ddf1ff -->
+<div class="main-container">
+    <form class="login" tuiAppearance="floating" tuiCardLarge tuiForm="m" [formGroup]="form">
+        <header tuiHeader>
+            <h2 tuiTitle>
+                Registrieren
+            </h2>
+        </header>
+
+        <!-- Vorname -->
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Vorname</label>
+            <input tuiTextfield formControlName="name" type="text" autocomplete="given-name" autocapitalize="words"
+                spellcheck="false" />
+        </tui-textfield>
+
+        <!-- Nachname -->
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Nachname</label>
+            <input tuiTextfield formControlName="lastName" type="text" autocomplete="family-name" autocapitalize="words"
+                spellcheck="false" />
+        </tui-textfield>
+
+        <div class="birthdate-phone-container">
+            <!-- Geburtsdatum -->
+            <tui-textfield tuiTextfieldSize="l">
+                <label tuiLabel>Geburtsdatum</label>
+                <input tuiInputDate formControlName="birthDate" />
+                <tui-calendar *tuiTextfieldDropdown />
+            </tui-textfield>
+
+            <tui-textfield tuiTextfieldSize="l">
+                <label tuiLabel>Telefonnummer</label>
+                <input autocomplete="tel" mask="+43 ### ###-##-##" tuiInputPhone [attr.pattern]="pattern"
+                    formControlName="phoneNumber" />
+            </tui-textfield>
+
+        </div>
+
+
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Email-Adresse</label>
+            <input tuiTextfield formControlName="email" type="text" inputmode="email" autocomplete="email"
+                autocapitalize="off" spellcheck="false" />
+        </tui-textfield>
+
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Kennwort</label>
+            <input tuiTextfield formControlName="password" type="password" inputmode="text"
+                autocomplete="current-password" autocapitalize="off" spellcheck="false" />
+            <tui-icon tuiPassword />
+        </tui-textfield>
+
+        <footer>
+            <button class="submit-button" tuiButton type="submit">
+                Registrieren
+            </button>
+        </footer>
+
+        <div class="tui-space_top-4 flex items-center justify-between">
+            <span>
+                Ein Konto vorhanden?
+                <button tuiLink type="button" tuiHintAppearance="dark" tuiHintDirection="top-left"
+                    (click)="navigateToSignUp()">
+                    Hier anmelden
+                </button>
+            </span>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">
+            <hr>
+            <span>oder</span>
+            <hr>
+        </div>
+        <!-- Google Button -->
+        <div class="social-login">
+            <button tuiButton type="button" appearance="outline"
+                class="google-login flex items-center gap-2 px-4 py-2 rounded-lg shadow-sm border border-gray-300 hover:bg-gray-50"
+                (click)="loginWithGoogle()">
+                <img src="assets/google-logo.png.webp" alt="Google" class="google-logo" />
+                Weiter mit Google
+            </button>
+        </div>
+    </form>
+</div>

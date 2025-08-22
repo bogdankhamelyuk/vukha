@@ -34,8 +34,7 @@ import { Router } from '@angular/router';
     TuiAppearance
   ],
   templateUrl: './login.html',
-  styleUrl: './login.css',
-  standalone: true,
+  styleUrl: './login.css'
 })
 export class LoginForm {
 
