@@ -13,29 +13,20 @@
             <input tuiTextfield formControlName="name" type="text" autocomplete="given-name" autocapitalize="words"
                 spellcheck="false" />
         </tui-textfield>
-
-        <!-- Nachname -->
+        <!-- <div class="birthdate-phone-container"> -->
+        <!-- Geburtsdatum -->
         <tui-textfield tuiTextfieldSize="l">
-            <label tuiLabel>Nachname</label>
-            <input tuiTextfield formControlName="lastName" type="text" autocomplete="family-name" autocapitalize="words"
-                spellcheck="false" />
+            <label tuiLabel>Geburtsdatum</label>
+            <input tuiInputDate formControlName="birthDate" />
+            <tui-calendar *tuiTextfieldDropdown />
         </tui-textfield>
 
-        <div class="birthdate-phone-container">
-            <!-- Geburtsdatum -->
-            <tui-textfield tuiTextfieldSize="l">
-                <label tuiLabel>Geburtsdatum</label>
-                <input tuiInputDate formControlName="birthDate" />
-                <tui-calendar *tuiTextfieldDropdown />
-            </tui-textfield>
-
-            <tui-textfield tuiTextfieldSize="l">
-                <label tuiLabel>Telefonnummer</label>
-                <input autocomplete="tel" mask="+43 ### ###-##-##" tuiInputPhone [attr.pattern]="pattern"
-                    formControlName="phoneNumber" />
-            </tui-textfield>
-
-        </div>
+        <tui-textfield tuiTextfieldSize="l" [tuiTextfieldCleaner]="false">
+            <label tuiLabel>Telefonnummer</label>
+            <input tuiInputPhoneInternational [countries]="(countries | tuiSortCountries | async) || []"
+                [countrySearch]="true" [(countryIsoCode)]="countryIsoCode" formControlName="phoneNumber" />
+        </tui-textfield>
+        <!-- </div> -->
 
 
         <tui-textfield tuiTextfieldSize="l">
@@ -46,9 +37,19 @@
 
         <tui-textfield tuiTextfieldSize="l">
             <label tuiLabel>Kennwort</label>
-            <input tuiTextfield formControlName="password" type="password" inputmode="text"
-                autocomplete="current-password" autocapitalize="off" spellcheck="false" />
+            <input tuiTextfield formControlName="password" type="password" inputmode="text" autocapitalize="off"
+                spellcheck="false" />
             <tui-icon tuiPassword />
+        </tui-textfield>
+
+        <tui-textfield tuiTextfieldSize="l">
+            <label tuiLabel>Kennwort bestätigen</label>
+            <input tuiTextfield formControlName="passwordConfirm" type="password" inputmode="text" autocapitalize="off"
+                spellcheck="false" />
+            <tui-icon tuiPassword />
+            @if (form.errors?.['passwordMismatch']) {
+            <tui-error error="Passwörter stimmen nicht überein" />
+            }
         </tui-textfield>
 
         <footer>

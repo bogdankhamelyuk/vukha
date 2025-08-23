@@ -11,7 +11,7 @@ import {
   TuiLink
 } from '@taiga-ui/core';
 import { TuiCardLarge, TuiForm, TuiHeader } from '@taiga-ui/layout';
-import { TuiTextarea, TuiPassword, TuiCheckbox } from '@taiga-ui/kit';
+import { TuiPassword, TuiCheckbox } from '@taiga-ui/kit';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,6 @@ import { Router } from '@angular/router';
     TuiIcon,
     TuiLink,
     TuiPassword,
-    TuiTextarea,
     TuiAppearance
   ],
   templateUrl: './login.html',
