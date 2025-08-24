@@ -1,0 +1,17 @@
+.agb-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.tui-list__item {
+    margin-block-start: 0rem;
+}
+
+.tui-list__description {
+    margin: 0rem;
+}
+
+.tui-list_nested {
+    margin-top: 0rem;
+}

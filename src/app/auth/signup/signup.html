@@ -1,4 +1,3 @@
-<!-- use that color for background: #ddf1ff -->
 <div class="main-container">
     <form class="login" tuiAppearance="floating" tuiCardLarge tuiForm="m" [formGroup]="form">
         <header tuiHeader>
@@ -9,51 +8,62 @@
 
         <!-- Vorname -->
         <tui-textfield tuiTextfieldSize="l">
-            <label tuiLabel>Vorname</label>
+            <label tuiLabel>Name</label>
             <input tuiTextfield formControlName="name" type="text" autocomplete="given-name" autocapitalize="words"
                 spellcheck="false" />
         </tui-textfield>
-        <!-- <div class="birthdate-phone-container"> -->
+
         <!-- Geburtsdatum -->
         <tui-textfield tuiTextfieldSize="l">
             <label tuiLabel>Geburtsdatum</label>
-            <input tuiInputDate formControlName="birthDate" />
+            <input tuiInputDate formControlName="birthDate" autocomplete="bday" />
             <tui-calendar *tuiTextfieldDropdown />
         </tui-textfield>
 
+        <!-- Telefonnummer -->
         <tui-textfield tuiTextfieldSize="l" [tuiTextfieldCleaner]="false">
             <label tuiLabel>Telefonnummer</label>
             <input tuiInputPhoneInternational [countries]="(countries | tuiSortCountries | async) || []"
-                [countrySearch]="true" [(countryIsoCode)]="countryIsoCode" formControlName="phoneNumber" />
+                [countrySearch]="true" [(countryIsoCode)]="countryIsoCode" formControlName="phoneNumber"
+                autocomplete="tel" />
         </tui-textfield>
-        <!-- </div> -->
 
-
+        <!-- Email-Adresse -->
         <tui-textfield tuiTextfieldSize="l">
             <label tuiLabel>Email-Adresse</label>
             <input tuiTextfield formControlName="email" type="text" inputmode="email" autocomplete="email"
                 autocapitalize="off" spellcheck="false" />
         </tui-textfield>
 
+        <!-- Passwort -->
         <tui-textfield tuiTextfieldSize="l">
             <label tuiLabel>Kennwort</label>
             <input tuiTextfield formControlName="password" type="password" inputmode="text" autocapitalize="off"
-                spellcheck="false" />
+                autocomplete="new-password" spellcheck="false" />
             <tui-icon tuiPassword />
         </tui-textfield>
 
+        <!-- Passwort bestätigen -->
         <tui-textfield tuiTextfieldSize="l">
             <label tuiLabel>Kennwort bestätigen</label>
             <input tuiTextfield formControlName="passwordConfirm" type="password" inputmode="text" autocapitalize="off"
-                spellcheck="false" />
+                spellcheck="false" autocomplete="new-password" />
             <tui-icon tuiPassword />
             @if (form.errors?.['passwordMismatch']) {
             <tui-error error="Passwörter stimmen nicht überein" />
             }
         </tui-textfield>
 
+        <!-- AGB Checkbox -->
+        <label tuiLabel class="save-agb">
+            <input formControlName="agb" tuiCheckbox type="checkbox" size="s" />
+            <span> Ich habe die <button tuiLink type="button" (click)="showAGB()">
+                    AGB
+                </button> gelesen und akzeptiere sie.</span>
+        </label>
+
         <footer>
-            <button class="submit-button" tuiButton type="submit">
+            <button class="submit-button" tuiButton type="submit" (click)="onClick()" [disabled]="form.invalid">
                 Registrieren
             </button>
         </footer>
@@ -84,4 +94,14 @@
             </button>
         </div>
     </form>
+    <ng-template #agbTemplate let-context>
+        <div class="agb-content-container">
+            <div class="agb-text">
+                <app-agb-content></app-agb-content>
+            </div>
+            <button tuiButton type="button" (click)="context.complete()">
+                Submit
+            </button>
+        </div>
+    </ng-template>
 </div>

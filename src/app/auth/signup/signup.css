@@ -192,8 +192,9 @@ hr {
     column-gap: .5rem;
 }
 
-.save-login {
-    column-gap: 2.5px;
+.save-agb {
+    column-gap: 5px;
+    align-items: center;
 
     input {
         margin: 0px;
@@ -218,4 +219,16 @@ header {
         flex-direction: column;
         row-gap: 1rem;
     }
+}
+
+.agb-content-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 70vh;
+    row-gap: 1rem;
+}
+
+.agb-text {
+    overflow: auto;
 }

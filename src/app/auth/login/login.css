@@ -119,7 +119,6 @@ tui-textfield {
 
     .password-options {
         font-size: 15px;
-
     }
 
     .form-group input {
@@ -192,7 +191,8 @@ hr {
 }
 
 .save-login {
-    column-gap: 2.5px;
+    column-gap: 5px;
+    align-items: center;
 
     input {
         margin: 0px;
