@@ -1,0 +1,39 @@
+<div class="map-container">
+    <!-- <div class="burger-menu tui-space_left-5 tui-space_top-4" tuiIconButton type="button"
+        [class.active]="dropdownOpen ? true : false" tuiDropdownAlign="right" type="button" [tuiDropdown]="dropdown"
+        [tuiDropdownSided]="true" [(tuiDropdownOpen)]="dropdownOpen">
+        <div class="burger-container">
+            <div class="burger-inner"></div>
+        </div>
+    </div> -->
+    <div class="burger-menu tui-space_left-5 tui-space_top-4">
+        <button appearance="floating" tuiButton
+    tuiDropdownAlign="right"
+    type="button"
+    [tuiAppearanceState]="open ? 'active' : null"
+    [tuiDropdown]="dropdown"
+    [tuiDropdownSided]="true"
+    [(tuiDropdownOpen)]="open">
+            <tui-icon icon="@tui.material.filled.menu"></tui-icon>
+        </button>
+    </div>
+
+    <ng-template #dropdown let-close>
+        <tui-data-list>
+            <tui-opt-group>
+                <!-- <button
+                *ngFor="let item of items"
+                tuiOption
+                type="button"
+                (click)="onClick()"
+            > -->
+                @for (item of menuItems; track item){
+                <button tuiOption new (click)="close()">
+                    {{ item }}
+                </button>}
+            </tui-opt-group>
+        </tui-data-list>
+    </ng-template>
+    <div #mapContainer class="map" id="map">
+    </div>
+</div>

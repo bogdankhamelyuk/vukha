@@ -5,12 +5,12 @@
     flex-direction: column;
 }
 
-.map-header {
+/* .map-header {
     background: #f8f9fa;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} 
 
 .map-header h2 {
     margin: 0 0 1rem 0;
@@ -73,7 +73,7 @@
     background: #6c757d;
     cursor: not-allowed;
 }
-
+*/
 .map {
     flex: 1;
     min-height: 400px;
@@ -102,4 +102,10 @@
     .center-btn {
         width: 100%;
     }
+}
+
+.burger-menu {
+    cursor: pointer;
+    z-index: 1000;
+    position: absolute;
 }

@@ -1,14 +1,17 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiIconPipe } from '@taiga-ui/core';
+import { TuiStep } from '@taiga-ui/kit';
 import * as L from 'leaflet';
-
+import { OnDestroy, HostListener } from '@angular/core';
 @Component({
-  selector: 'app-main',
-  imports: [],
-  templateUrl: './main.html',
-  styleUrl: './main.css'
+  selector: 'app-main-view',
+  imports: [TuiButton, TuiDataList, TuiDropdown, TuiStep, TuiIcon, TuiIconPipe],
+  templateUrl: './main-view.html',
+  styleUrls: ['./main-view.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Main implements OnInit, OnDestroy {
+
+export class MainView implements AfterViewInit, OnDestroy {
 
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
 
@@ -19,11 +22,19 @@ export class Main implements OnInit, OnDestroy {
   private defaultLat = 47.2692;
   private defaultLng = 11.4041;
 
+  public menuItems: string[] = ['Item 1', 'Item 2', 'Item 3'];
   locationStatus: string = 'Standort wird gesucht...';
   locationError: string = '';
 
+  constructor(private eRef: ElementRef) { }
 
-  ngOnInit(): void {
+  protected open = false;
+
+  protected onClick(): void {
+    this.open = false;
+  }
+
+  ngAfterViewInit(): void {
     this.initializeMap();
     this.getUserLocation();
   }
@@ -39,11 +50,11 @@ export class Main implements OnInit, OnDestroy {
     this.fixLeafletIcons();
 
     // Initialize map with default location
-    this.map = L.map(this.mapContainer.nativeElement).setView(
+    this.map = L.map(this.mapContainer.nativeElement, { zoomControl: false }).setView(
       [this.defaultLat, this.defaultLng],
       13
     );
-
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -70,7 +81,7 @@ export class Main implements OnInit, OnDestroy {
     L.Marker.prototype.options.icon = iconDefault;
   }
 
-  getUserLocation(): void {
+  public getUserLocation(): void {
     this.locationStatus = 'Standort wird gesucht...';
     this.locationError = '';
 
@@ -93,6 +104,15 @@ export class Main implements OnInit, OnDestroy {
     );
   }
 
+
+  private setGeoLocation(position: { coords: { latitude: any; longitude: any } }) {
+    const {
+      coords: { latitude, longitude },
+    } = position;
+
+    this.map = L.map('map').setView([latitude, longitude], 3);
+  }
+
   private onLocationSuccess(position: GeolocationPosition): void {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
@@ -106,11 +126,14 @@ export class Main implements OnInit, OnDestroy {
       this.map.removeLayer(this.userLocationMarker);
     }
 
+    const width = 20;
+    const height = 30;
+
     // Create custom icon for user location
     const userIcon = L.icon({
-      iconUrl: 'assets/user-location.png',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
+      iconUrl: 'assets/marker-icon.png',
+      iconSize: [width, height],
+      iconAnchor: [width / 2, height / 2],
       popupAnchor: [0, -15]
     });
 
@@ -126,16 +149,9 @@ export class Main implements OnInit, OnDestroy {
 
     // Center map on user location
     this.map.setView([lat, lng], 15);
-
-    // Add accuracy circle
-    L.circle([lat, lng], {
-      radius: accuracy,
-      color: '#3388ff',
-      fillColor: '#3388ff',
-      fillOpacity: 0.1,
-      weight: 2
-    }).addTo(this.map);
   }
+
+
 
   private onLocationError(error: GeolocationPositionError): void {
     let errorMessage = '';

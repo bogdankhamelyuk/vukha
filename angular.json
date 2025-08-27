@@ -26,7 +26,12 @@
                 "glob": "**/*",
                 "input": "node_modules/@taiga-ui/icons/src",
                 "output": "assets/taiga-ui/icons"
-              }
+              },
+              {
+              "glob": "**/*",
+              "input": "node_modules/@taiga-ui/icons-material/src",
+              "output": "assets/taiga-ui/icons/"
+            }
             ],
             "styles": [
               "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
@@ -92,5 +97,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
