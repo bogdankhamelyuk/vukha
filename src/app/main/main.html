@@ -1,0 +1,25 @@
+<div class="map-container">
+    <!-- <div class="map-header">
+        <h2>OpenStreetMap mit Standortbestimmung</h2>
+        <div class="location-info">
+            <p class="location-status" [class.error]="locationError">
+                {{ locationStatus }}
+            </p>
+            @if (locationError) {
+            <p class="location-error">
+                {{ locationError }}
+            </p>
+            }
+        </div>
+        <div class="map-controls">
+            <button class="location-btn" (click)="getUserLocation()" title="Standort aktualisieren">
+                📍 Standort suchen
+            </button>
+            <button class="center-btn" (click)="centerOnUserLocation()" title="Zu meinem Standort">
+                🎯 Zentrieren
+            </button>
+        </div>
+    </div> -->
+
+    <div #mapContainer class="map" id="map"></div>
+</div>
