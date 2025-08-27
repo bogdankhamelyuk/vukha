@@ -1,25 +1,14 @@
 <div class="map-container">
-    <!-- <div class="burger-menu tui-space_left-5 tui-space_top-4" tuiIconButton type="button"
-        [class.active]="dropdownOpen ? true : false" tuiDropdownAlign="right" type="button" [tuiDropdown]="dropdown"
-        [tuiDropdownSided]="true" [(tuiDropdownOpen)]="dropdownOpen">
-        <div class="burger-container">
-            <div class="burger-inner"></div>
-        </div>
-    </div> -->
     <div class="burger-menu tui-space_left-5 tui-space_top-4">
-        <button appearance="floating" tuiButton
-    tuiDropdownAlign="right"
-    type="button"
-    [tuiAppearanceState]="open ? 'active' : null"
-    [tuiDropdown]="dropdown"
-    [tuiDropdownSided]="true"
-    [(tuiDropdownOpen)]="open">
+        <button appearance="floating" tuiButton tuiDropdownAlign="right" type="button"
+            [tuiAppearanceState]="open ? 'active' : null" [tuiDropdown]="dropdown" [tuiDropdownSided]="true"
+            [(tuiDropdownOpen)]="open">
             <tui-icon icon="@tui.material.filled.menu"></tui-icon>
         </button>
     </div>
 
     <ng-template #dropdown let-close>
-        <tui-data-list>
+        <tui-data-list class="dropdown-list">
             <tui-opt-group>
                 <!-- <button
                 *ngFor="let item of items"
@@ -28,7 +17,7 @@
                 (click)="onClick()"
             > -->
                 @for (item of menuItems; track item){
-                <button tuiOption new (click)="close()">
+                <button class="dropdown-item" tuiOption new (click)="close()">
                     {{ item }}
                 </button>}
             </tui-opt-group>
@@ -37,3 +26,4 @@
     <div #mapContainer class="map" id="map">
     </div>
 </div>
+<ng-template #markerContainer></ng-template>

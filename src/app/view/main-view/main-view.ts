@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
 import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiIconPipe } from '@taiga-ui/core';
-import { TuiStep } from '@taiga-ui/kit';
+import { TuiStep, TuiPulse } from '@taiga-ui/kit';
 import * as L from 'leaflet';
-import { OnDestroy, HostListener } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-main-view',
-  imports: [TuiButton, TuiDataList, TuiDropdown, TuiStep, TuiIcon, TuiIconPipe],
+  imports: [TuiButton, TuiDataList, TuiDropdown, TuiStep, TuiIcon, TuiIconPipe, TuiPulse],
   templateUrl: './main-view.html',
   styleUrls: ['./main-view.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,19 +14,19 @@ import { OnDestroy, HostListener } from '@angular/core';
 export class MainView implements AfterViewInit, OnDestroy {
 
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
+  @ViewChild('markerContainer', { read: ViewContainerRef, static: true })
 
   private map!: L.Map;
   private userLocationMarker?: L.Marker;
-
   // Default location (Vienna, Austria - since you're in Innsbruck)
   private defaultLat = 47.2692;
   private defaultLng = 11.4041;
 
-  public menuItems: string[] = ['Item 1', 'Item 2', 'Item 3'];
+  public menuItems: string[] = ['Konto', 'Parkenverlauf', 'Meine Parkplätze'];
   locationStatus: string = 'Standort wird gesucht...';
   locationError: string = '';
 
-  constructor(private eRef: ElementRef) { }
+  constructor(private viewContainerRef: ViewContainerRef) { }
 
   protected open = false;
 
@@ -46,9 +46,6 @@ export class MainView implements AfterViewInit, OnDestroy {
   }
 
   private initializeMap(): void {
-    // Fix for default marker icons in Angular
-    this.fixLeafletIcons();
-
     // Initialize map with default location
     this.map = L.map(this.mapContainer.nativeElement, { zoomControl: false }).setView(
       [this.defaultLat, this.defaultLng],
@@ -61,25 +58,7 @@ export class MainView implements AfterViewInit, OnDestroy {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
   }
-  private fixLeafletIcons(): void {
-    // Fix for Leaflet default marker icons not working in Angular
-    const iconRetinaUrl = 'assets/marker-icon-2x.png';
-    const iconUrl = 'assets/marker-icon.png';
-    const shadowUrl = 'assets/marker-shadow.png';
 
-    const iconDefault = L.icon({
-      iconRetinaUrl,
-      iconUrl,
-      shadowUrl,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      tooltipAnchor: [16, -28],
-      shadowSize: [41, 41]
-    });
-
-    L.Marker.prototype.options.icon = iconDefault;
-  }
 
   public getUserLocation(): void {
     this.locationStatus = 'Standort wird gesucht...';
@@ -103,17 +82,8 @@ export class MainView implements AfterViewInit, OnDestroy {
       options
     );
   }
-
-
-  private setGeoLocation(position: { coords: { latitude: any; longitude: any } }) {
-    const {
-      coords: { latitude, longitude },
-    } = position;
-
-    this.map = L.map('map').setView([latitude, longitude], 3);
-  }
-
   private onLocationSuccess(position: GeolocationPosition): void {
+    // this.viewContainerRef.clear();
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
     const accuracy = position.coords.accuracy;
@@ -126,32 +96,33 @@ export class MainView implements AfterViewInit, OnDestroy {
       this.map.removeLayer(this.userLocationMarker);
     }
 
-    const width = 20;
-    const height = 30;
-
-    // Create custom icon for user location
-    const userIcon = L.icon({
-      iconUrl: 'assets/marker-icon.png',
-      iconSize: [width, height],
-      iconAnchor: [width / 2, height / 2],
-      popupAnchor: [0, -15]
-    });
+    const tuiPulseIcon = this.createPulseIcon();
 
     // Add marker for user location
-    this.userLocationMarker = L.marker([lat, lng], { icon: userIcon })
-      .addTo(this.map)
-      .bindPopup(`
-        <b>Ihr Standort</b><br>
-        Breitengrad: ${lat.toFixed(6)}<br>
-        Längengrad: ${lng.toFixed(6)}<br>
-        Genauigkeit: ±${Math.round(accuracy)}m
-      `);
+    this.userLocationMarker = L.marker([lat, lng], { icon: tuiPulseIcon })
+      .addTo(this.map);
 
     // Center map on user location
     this.map.setView([lat, lng], 15);
   }
 
 
+  private createPulseIcon(): L.DivIcon {
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.alignItems = 'center';
+    container.style.justifyContent = 'center';
+
+
+    const componentRef = this.viewContainerRef.createComponent(TuiPulse);
+    componentRef.setInput('playing', true);
+    container.appendChild(componentRef.location.nativeElement);
+
+    return L.divIcon({
+      html: container,
+      className: 'tui-pulse-marker',
+    });
+  }
 
   private onLocationError(error: GeolocationPositionError): void {
     let errorMessage = '';
