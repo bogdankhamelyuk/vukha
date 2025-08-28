@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
-import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiIconPipe } from '@taiga-ui/core';
-import { TuiStep, TuiPulse } from '@taiga-ui/kit';
+import { TuiButton, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
+import { TuiPulse } from '@taiga-ui/kit';
 import * as L from 'leaflet';
 import { OnDestroy } from '@angular/core';
 @Component({
   selector: 'app-main-view',
-  imports: [TuiButton, TuiDataList, TuiDropdown, TuiStep, TuiIcon, TuiIconPipe, TuiPulse],
+  imports: [TuiButton, TuiDataList, TuiDropdown, TuiIcon],
   templateUrl: './main-view.html',
   styleUrls: ['./main-view.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -109,14 +109,7 @@ export class MainView implements AfterViewInit, OnDestroy {
 
   private createPulseIcon(): L.DivIcon {
     const container = document.createElement('div');
-    container.style.display = 'flex';
-    container.style.alignItems = 'center';
-    container.style.justifyContent = 'center';
-
-
-    const componentRef = this.viewContainerRef.createComponent(TuiPulse);
-    componentRef.setInput('playing', true);
-    container.appendChild(componentRef.location.nativeElement);
+    container.className = 'circle pulse';
 
     return L.divIcon({
       html: container,

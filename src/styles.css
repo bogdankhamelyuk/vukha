@@ -4,3 +4,29 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+.circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  /* box-shadow: 0px 0px 1px 1px #8798ec; */
+  background: var(--tui-background-accent-1);
+  border-color: white;
+  border-width: 2px;
+  border-style: solid; /* Add this line to make the border visible */
+}
+
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(126, 126, 126, 0.2);
+  }
+
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
