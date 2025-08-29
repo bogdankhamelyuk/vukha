@@ -5,14 +5,6 @@
     flex-direction: column;
 }
 
-.dropdown-list {
-    width: 10rem;
-}
-
-.dropdown-item {
-    width: 100%;
-}
-
 .map {
     flex: 1;
     min-height: 400px;
@@ -47,4 +39,27 @@
     cursor: pointer;
     z-index: 1000;
     position: absolute;
+}
+
+.header {
+    position: sticky;
+}
+
+.drawer-menu-left {
+    top: 0;
+    border-radius: 0;
+    inline-size: 20rem;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item-button {
+    display: flex;
+    width: -webkit-fill-available;
+    justify-content: flex-start;
+}
+
+.menu-left-footer {
+    justify-content: center !important;
 }

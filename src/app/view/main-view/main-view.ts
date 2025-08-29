@@ -1,11 +1,13 @@
-import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
-import { TuiButton, TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
-import { TuiPulse } from '@taiga-ui/kit';
+import { Component, signal, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit, ViewContainerRef } from '@angular/core';
+import { TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiTitle, TuiPopup } from '@taiga-ui/core';
+import { TuiDrawer } from '@taiga-ui/kit';
+import { TuiHeader } from '@taiga-ui/layout';
 import * as L from 'leaflet';
 import { OnDestroy } from '@angular/core';
+
 @Component({
   selector: 'app-main-view',
-  imports: [TuiButton, TuiDataList, TuiDropdown, TuiIcon],
+  imports: [TuiButton, TuiDataList, TuiDropdown, TuiIcon, TuiDrawer, TuiTitle, TuiHeader, TuiPopup],
   templateUrl: './main-view.html',
   styleUrls: ['./main-view.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,13 +28,10 @@ export class MainView implements AfterViewInit, OnDestroy {
   locationStatus: string = 'Standort wird gesucht...';
   locationError: string = '';
 
-  constructor(private viewContainerRef: ViewContainerRef) { }
+  protected readonly open = signal(false);
+  public userName = "Max Mustermann"; // ToDo: fetch actual user name from API in ngOnInit
 
-  protected open = false;
-
-  protected onClick(): void {
-    this.open = false;
-  }
+  constructor() { }
 
   ngAfterViewInit(): void {
     this.initializeMap();

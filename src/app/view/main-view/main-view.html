@@ -1,28 +1,29 @@
 <div class="map-container">
     <div class="burger-menu tui-space_left-5 tui-space_top-4">
-        <button appearance="floating" tuiButton tuiDropdownAlign="right" type="button"
-            [tuiAppearanceState]="open ? 'active' : null" [tuiDropdown]="dropdown" [tuiDropdownSided]="true"
-            [(tuiDropdownOpen)]="open">
+        <button appearance="floating" tuiButton type="button" (click)="open.set(true)">
             <tui-icon icon="@tui.material.filled.menu"></tui-icon>
         </button>
     </div>
-<!-- TODO ADD DRAWERS HERE -->
-    <ng-template #dropdown let-close>
-        <tui-data-list class="dropdown-list">
-            <tui-opt-group>
-                <!-- <button
-                *ngFor="let item of items"
-                tuiOption
-                type="button"
-                (click)="onClick()"
-            > -->
-                @for (item of menuItems; track item){
-                <button class="dropdown-item" tuiOption new (click)="close()">
-                    {{ item }}
-                </button>}
-            </tui-opt-group>
-        </tui-data-list>
-    </ng-template>
+    <tui-drawer class="drawer-menu-left" *tuiPopup="open()" direction="left" [overlay]="true"
+        (click.self)="open.set(false)">
+        <header class="header">
+            <h2 tuiHeader>
+                <div tuiTitle>Hallo {{ userName }} 👋</div>
+                <div tuiAccessories>
+                    <button tuiButton type="button" (click)="open.set(false)" appearance="flat">
+                        <tui-icon icon="@tui.material.filled.close"></tui-icon>
+                    </button>
+                </div>
+            </h2>
+        </header>
+        <button class="menu-item-button" tuiButton appearance="flat" size="l">Mein Konto</button>
+        <button class="menu-item-button" tuiButton appearance="flat" size="l">Parkenverlauf</button>
+        <button class="menu-item-button" tuiButton appearance="flat" size="l">Meine Parkplätze</button>
+        <!-- Bitte evtl die konstante Mitgliedschaft überlegen -->
+        <footer class="menu-left-footer">
+            <button class="menu-item-button" tuiButton appearance="flat" size="l">Abmelden</button>
+        </footer>
+    </tui-drawer>
     <div #mapContainer class="map" id="map">
     </div>
 </div>
