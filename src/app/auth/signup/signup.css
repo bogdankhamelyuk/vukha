@@ -232,3 +232,11 @@ header {
 .agb-text {
     overflow: auto;
 }
+
+.passwords {
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column;
+    row-gap: inherit;
+    justify-content: space-around;
+}

@@ -35,24 +35,26 @@
                 autocapitalize="off" spellcheck="false" />
         </tui-textfield>
 
-        <!-- Passwort -->
-        <tui-textfield tuiTextfieldSize="l">
-            <label tuiLabel>Kennwort</label>
-            <input tuiTextfield formControlName="password" type="password" inputmode="text" autocapitalize="off"
-                autocomplete="new-password" spellcheck="false" />
-            <tui-icon tuiPassword />
-        </tui-textfield>
+        <div class="passwords" formGroupName="passwords">
+            <!-- Passwort -->
+            <tui-textfield tuiTextfieldSize="l">
+                <label tuiLabel>Kennwort</label>
+                <input tuiTextfield formControlName="password" type="password" inputmode="text" autocapitalize="off"
+                    autocomplete="new-password" spellcheck="false" />
+                <tui-icon tuiPassword />
+            </tui-textfield>
 
-        <!-- Passwort bestätigen -->
-        <tui-textfield tuiTextfieldSize="l">
-            <label tuiLabel>Kennwort bestätigen</label>
-            <input tuiTextfield formControlName="passwordConfirm" type="password" inputmode="text" autocapitalize="off"
-                spellcheck="false" autocomplete="new-password" />
-            <tui-icon tuiPassword />
-            @if (form.errors?.['passwordMismatch']) {
-            <tui-error error="Passwörter stimmen nicht überein" />
-            }
-        </tui-textfield>
+            <!-- Passwort bestätigen -->
+            <tui-textfield tuiTextfieldSize="l">
+                <label tuiLabel>Kennwort bestätigen</label>
+                <input tuiTextfield formControlName="confirm" type="password" inputmode="text" autocapitalize="off"
+                    spellcheck="false" autocomplete="new-password" />
+                <tui-icon tuiPassword />
+                @if (form.errors?.['passwordMismatch']) {
+                <tui-error error="Passwörter stimmen nicht überein" />
+                }
+            </tui-textfield>
+        </div>
 
         <!-- AGB Checkbox -->
         <label tuiLabel class="save-agb">

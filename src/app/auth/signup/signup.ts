@@ -1,5 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy, ViewChild, ElementRef, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   TuiTextfield,
   TuiTitle,
@@ -23,11 +23,10 @@ import { TUI_IS_IOS } from '@taiga-ui/cdk';
 
 import { TuiInputPhoneInternational } from '@taiga-ui/experimental';
 import { type TuiCountryIsoCode } from '@taiga-ui/i18n';
-
 import { getCountries } from 'libphonenumber-js';
-import { defer, tap } from 'rxjs';
-import { passwordMatchValidator } from '../../../utils/validators';
+import { defer } from 'rxjs';
 import { AgbContent } from './agb-content/agb-content';
+import { createRegistrationForm } from '../../../shared/registration-form';
 
 @Component({
   selector: 'app-signup',
@@ -71,20 +70,11 @@ export class SignupForm {
   protected readonly isIos = inject(TUI_IS_IOS);
   private readonly dialog = inject(TuiDialogService);
   @ViewChild('agbTemplate') agbTemplate: TemplateRef<void>;
-  constructor(private router: Router) { }
+  protected readonly form;
 
-  protected readonly form = new FormGroup({
-    name: new FormControl('', Validators.required),
-    birthDate: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', [
-      Validators.required,
-      Validators.pattern(/^[0-9+\-\s()]*$/)
-    ]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    passwordConfirm: new FormControl('', [Validators.required]),
-    agb: new FormControl(false, Validators.requiredTrue)
-  }, { validators: passwordMatchValidator });
+  constructor(private router: Router, private fb: NonNullableFormBuilder) {
+    this.form = createRegistrationForm(this.fb);
+  }
 
   protected readonly countries = getCountries();
   protected countryIsoCode: TuiCountryIsoCode = 'AT';
